@@ -1,0 +1,10 @@
+.header__info {
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media (max-width:880px) {
+    .header__info {
+        width: 90%;
+    }
+}
