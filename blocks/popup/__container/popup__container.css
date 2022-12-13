@@ -4,7 +4,6 @@
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     padding: 34px 36px 37px;
     max-width: 430px;
-    margin: calc((100vh - 324px)/2) auto;
     position: relative;
     box-sizing: border-box;
 }
