@@ -5,5 +5,11 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s ease-in-out 0.5s, opacity 0.5s ease-in-out;
+    box-sizing: border-box;
 }

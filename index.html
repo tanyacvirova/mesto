@@ -27,55 +27,12 @@
         </div>
         <button class="profile__add-button" type="button"></button>
       </section>
-      <section class="elements">
-        <article class="element">
-          <img class="element__photo" src="./images/elemen_zelenogradsk.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Зеленоградск</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__photo" src="./images/element_kazan.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Казань</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__photo" src="./images/element_vladivostok.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Владивосток</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__photo" src="./images/element_karelia.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Карелия</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__photo" src="./images/element_saint-petersburg.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Санкт-Петербург</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__photo" src="./images/element_kamchatka.jpg" alt="Фото маяка в Зеленоградске">
-          <div class="element__info">
-            <h2 class="element__title">Камчатка</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-      </section>
+      <section class="elements"></section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_edit">
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
@@ -86,6 +43,34 @@
         </form>
       </div>
     </div>
+    <div class="popup popup_type_new-card">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button"></button>
+        <h3 class="popup__title">Новое место</h3>
+        <form class="popup__form" name="new-card">
+          <input class="popup__form-item popup__form-item_el_title" type="text" id="title" name="title" placeholder="Название">
+          <input class="popup__form-item popup__form-item_el_link" type="text" id="link" name="link" placeholder="Ссылка на картинку">
+          <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_image-view">
+      <div class="popup__photo-zoom">
+        <button class="popup__close-button" type="button"></button>
+        <img class="popup__image" src="#" alt="Фото. ">
+        <p class="popup__caption"></p>
+      </div>
+    </div>
+    <template class="template-item">
+      <article class="element">
+        <img class="element__photo" src="#" alt="Фото. ">
+        <button class="element__delete" type="button"></button>
+        <div class="element__info">
+          <h2 class="element__title"></h2>
+          <button class="element__like" type="button"></button>
+        </div>
+      </article>
+    </template>
   </div>
   <script src="./scripts/index.js"></script>
 </body>
