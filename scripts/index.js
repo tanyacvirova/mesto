@@ -1,5 +1,29 @@
-/* Render first 6 base cards from template */
-/* Also: delete cards, add and remove likes, open zoom popup */
+/* Declare variables */
+const cardContainer = document.querySelector('.elements');
+const cardTemplate = document.querySelector('.template-item').content.querySelector('.element');
+const popupZoom = document.querySelector('.popup_type_image-view');
+
+const zoomPhoto = popupZoom.querySelector('.popup__image');
+const zoomCaption = popupZoom.querySelector('.popup__caption');
+
+const editButton = document.querySelector('.profile__edit-button');
+const popupEdit = document.querySelector('.popup_type_edit');
+const closeButtons = document.querySelectorAll('.popup__close-button');
+
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+
+const editFormElement = popupEdit.querySelector('.popup__form');
+const nameInput = popupEdit.querySelector('.popup__form-item_el_name');
+const jobInput = popupEdit.querySelector('.popup__form-item_el_job');
+
+const addButton = document.querySelector('.profile__add-button');
+const popupNewCard = document.querySelector('.popup_type_new-card');
+
+const addFormElement = popupNewCard.querySelector('.popup__form');
+const titleInput = popupNewCard.querySelector('.popup__form-item_el_title');
+const linkInput = popupNewCard.querySelector('.popup__form-item_el_link');
+
 const initialCards = [
   {
       name: 'Зеленоградск',
@@ -27,36 +51,35 @@ const initialCards = [
   },
 ]
 
-const cardContainer = document.querySelector('.elements');
-const cardTemplate = document.querySelector('.template-item').content.querySelector('.element');
-
 function createCard (name, link) {
+  /* Clone element from template */
   const card = cardTemplate.cloneNode(true);
   const cardTitle = card.querySelector('.element__title');
   cardTitle.textContent = name;
   const cardImage = card.querySelector('.element__photo');
   cardImage.src = link;
   cardImage.alt += `${name}.`;
+  /* Handle card deletion */
   const deleteButton = card.querySelector('.element__delete');
   const deleteCard = () => {
     card.remove();
   }
   deleteButton.addEventListener('click', deleteCard);
   const likeButton = card.querySelector('.element__like');
+  /* Handle adding and removing likes */
   const likeCard = () => {
     likeButton.classList.toggle('element__like_active');
   }
   likeButton.addEventListener('click', likeCard);
+  /* Open zoom on click */
   const photo = card.querySelector('.element__photo');
-  const photoZoom = () => {
+  const openZoomOnPhoto = () => {
     openPopup(popupZoom);
-    const zoomPhoto = popupZoom.querySelector('.popup__image');
     zoomPhoto.src = link;
     zoomPhoto.alt += `${name}.`;
-    const zoomCaption = popupZoom.querySelector('.popup__caption');
     zoomCaption.textContent = name;
   }
-  photo.addEventListener('click', photoZoom);
+  photo.addEventListener('click', openZoomOnPhoto);
   return card;
 }
 
@@ -67,31 +90,10 @@ function renderCards () {
   })
 }
 
+/* Render first 6 base cards from template */
 renderCards();
 
 /* Open and close popups */
-const editButton = document.querySelector('.profile__edit-button');
-const popupEdit = document.querySelector('.popup_type_edit');
-const closeEditButton = popupEdit.querySelector('.popup__close-button');
-
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__job');
-
-let editFormElement = popupEdit.querySelector('.popup__form');
-let nameInput = popupEdit.querySelector('.popup__form-item_el_name');
-let jobInput = popupEdit.querySelector('.popup__form-item_el_job');
-
-const addButton = document.querySelector('.profile__add-button');
-const popupNewCard = document.querySelector('.popup_type_new-card');
-const closeNewCardButton = popupNewCard.querySelector('.popup__close-button');
-
-let addFormElement = popupNewCard.querySelector('.popup__form');
-let titleInput = popupNewCard.querySelector('.popup__form-item_el_title');
-let linkInput = popupNewCard.querySelector('.popup__form-item_el_link');
-
-const popupZoom = document.querySelector('.popup_type_image-view');
-const closeZoom = popupZoom.querySelector('.popup__close-button');
-
 function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
@@ -114,18 +116,13 @@ function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
 
-closeEditButton.addEventListener('click', () => {
-    closePopup(popupEdit);
-})
+/* For each close button on the page, find the nearest popup and close it */
+closeButtons.forEach(button => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(popup));
+});
 
-closeNewCardButton.addEventListener('click', () => {
-    closePopup(popupNewCard);
-})
-
-closeZoom.addEventListener('click', () => {
-  closePopup(popupZoom);
-})
-
+/* Saving the entered values before closing popups */
 function handleEditFormSubmit(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
@@ -139,8 +136,7 @@ function handleAddFormSubmit(evt) {
     const url = linkInput.value;
     const newCard = createCard (title, url);
     cardContainer.prepend(newCard);
-    titleInput.value = '';
-    linkInput.value = '';
+    evt.target.reset()
     closePopup(popupNewCard);
 }
 
