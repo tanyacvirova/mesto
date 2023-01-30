@@ -30,15 +30,19 @@
       <section class="elements"></section>
     </main>
     <footer class="footer">
-      <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+      <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_edit">
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form class="popup__form" name="edit-profile">
-          <input class="popup__form-item popup__form-item_el_name" type="text" id="name" name="name">
-          <input class="popup__form-item popup__form-item_el_job" type="text" id="job" name="job">
+        <form class="popup__form" name="edit-profile" novalidate>
+          <input class="popup__form-item popup__form-item_el_name" type="text" id="name" name="name" required
+            minlength="2" maxlength="40">
+          <span class="name-error popup__form-error"></span>
+          <input class="popup__form-item popup__form-item_el_job" type="text" id="job" name="job" required minlength="2"
+            maxlength="200">
+          <span class="job-error popup__form-error"></span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
       </div>
@@ -47,9 +51,13 @@
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Новое место</h3>
-        <form class="popup__form" name="new-card">
-          <input class="popup__form-item popup__form-item_el_title" type="text" id="title" name="title" placeholder="Название">
-          <input class="popup__form-item popup__form-item_el_link" type="text" id="link" name="link" placeholder="Ссылка на картинку">
+        <form class="popup__form" name="new-card" novalidate>
+          <input class="popup__form-item popup__form-item_el_title" type="text" id="title" name="title"
+            placeholder="Название" required minlength="2" maxlength="30">
+          <span class="title-error popup__form-error"></span>
+          <input class="popup__form-item popup__form-item_el_link" type="url" id="link" name="link"
+            placeholder="Ссылка на картинку" required>
+          <span class="link-error popup__form-error"></span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
       </div>
@@ -73,6 +81,7 @@
     </template>
   </div>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

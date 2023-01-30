@@ -26,32 +26,32 @@ const linkInput = popupNewCard.querySelector('.popup__form-item_el_link');
 
 const initialCards = [
   {
-      name: 'Зеленоградск',
-      link: './images/elemen_zelenogradsk.jpg'
+    name: 'Зеленоградск',
+    link: './images/elemen_zelenogradsk.jpg'
   },
   {
-      name: 'Казань',
-      link: './images/element_kazan.jpg'
+    name: 'Казань',
+    link: './images/element_kazan.jpg'
   },
   {
-      name: 'Владивосток',
-      link: './images/element_vladivostok.jpg'
+    name: 'Владивосток',
+    link: './images/element_vladivostok.jpg'
   },
   {
-      name: 'Карелия',
-      link: './images/element_karelia.jpg'
+    name: 'Карелия',
+    link: './images/element_karelia.jpg'
   },
   {
-      name: 'Санкт-Петербург',
-      link: './images/element_saint-petersburg.jpg'
+    name: 'Санкт-Петербург',
+    link: './images/element_saint-petersburg.jpg'
   },
   {
-      name: 'Камчатка',
-      link: './images/element_kamchatka.jpg'
+    name: 'Камчатка',
+    link: './images/element_kamchatka.jpg'
   },
 ]
 
-function createCard (name, link) {
+function createCard(name, link) {
   /* Clone element from template */
   const card = cardTemplate.cloneNode(true);
   const cardTitle = card.querySelector('.element__title');
@@ -83,10 +83,10 @@ function createCard (name, link) {
   return card;
 }
 
-function renderCards () {
+function renderCards() {
   initialCards.forEach(item => {
-      const cardHtml = createCard(item.name, item.link);
-      cardContainer.append(cardHtml);
+    const cardHtml = createCard(item.name, item.link);
+    cardContainer.append(cardHtml);
   })
 }
 
@@ -95,50 +95,69 @@ renderCards();
 
 /* Open and close popups */
 function openPopup(popup) {
-    popup.classList.add('popup_opened');
+  popup.classList.add('popup_opened');
 }
 
 function fillPopupEdit() {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+}
+
+function closeByEsc(evt) {
+  if (evt.key == 'Escape') {
+    closePopup(evt.currentTarget);
+  }
 }
 
 editButton.addEventListener('click', () => {
-    openPopup(popupEdit);
-    fillPopupEdit();
+  openPopup(popupEdit);
+  popupEdit.addEventListener('keyup', closeByEsc);
+  fillPopupEdit();
 })
 
 addButton.addEventListener('click', () => {
-    openPopup(popupNewCard);
+  openPopup(popupNewCard);
+  popupNewCard.addEventListener('keyup', closeByEsc);
 })
 
 function closePopup(popup) {
-    popup.classList.remove('popup_opened');
+  popup.classList.remove('popup_opened');
 }
 
 /* For each close button on the page, find the nearest popup and close it */
 closeButtons.forEach(button => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
+  popup.removeEventListener('keyup', closeByEsc);
 });
 
 /* Saving the entered values before closing popups */
 function handleEditFormSubmit(evt) {
-    evt.preventDefault();
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
-    closePopup(popupEdit);
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+  closePopup(popupEdit);
 }
 
 function handleAddFormSubmit(evt) {
-    evt.preventDefault();
-    const title = titleInput.value;
-    const url = linkInput.value;
-    const newCard = createCard (title, url);
-    cardContainer.prepend(newCard);
-    evt.target.reset()
-    closePopup(popupNewCard);
+  evt.preventDefault();
+  const title = titleInput.value;
+  const url = linkInput.value;
+  const newCard = createCard(title, url);
+  cardContainer.prepend(newCard);
+  evt.target.reset()
+  closePopup(popupNewCard);
 }
 
 editFormElement.addEventListener('submit', handleEditFormSubmit);
 addFormElement.addEventListener('submit', handleAddFormSubmit);
+
+function closeByExternalClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.target);
+  }
+}
+
+popupEdit.addEventListener('click', closeByExternalClick);
+popupNewCard.addEventListener('click', closeByExternalClick);
+popupZoom.addEventListener('click', closeByExternalClick);
