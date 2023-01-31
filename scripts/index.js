@@ -24,33 +24,6 @@ const addFormElement = popupNewCard.querySelector('.popup__form');
 const titleInput = popupNewCard.querySelector('.popup__form-item_el_title');
 const linkInput = popupNewCard.querySelector('.popup__form-item_el_link');
 
-const initialCards = [
-  {
-    name: 'Зеленоградск',
-    link: './images/elemen_zelenogradsk.jpg'
-  },
-  {
-    name: 'Казань',
-    link: './images/element_kazan.jpg'
-  },
-  {
-    name: 'Владивосток',
-    link: './images/element_vladivostok.jpg'
-  },
-  {
-    name: 'Карелия',
-    link: './images/element_karelia.jpg'
-  },
-  {
-    name: 'Санкт-Петербург',
-    link: './images/element_saint-petersburg.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: './images/element_kamchatka.jpg'
-  },
-]
-
 function createCard(name, link) {
   /* Clone element from template */
   const card = cardTemplate.cloneNode(true);
@@ -58,7 +31,8 @@ function createCard(name, link) {
   cardTitle.textContent = name;
   const cardImage = card.querySelector('.element__photo');
   cardImage.src = link;
-  cardImage.alt += `${name}.`;
+  const altText = `Фото. ${name}.`
+  cardImage.alt = altText;
   /* Handle card deletion */
   const deleteButton = card.querySelector('.element__delete');
   const deleteCard = () => {
@@ -76,7 +50,7 @@ function createCard(name, link) {
   const openZoomOnPhoto = () => {
     openPopup(popupZoom);
     zoomPhoto.src = link;
-    zoomPhoto.alt += `${name}.`;
+    zoomPhoto.alt = altText;
     zoomCaption.textContent = name;
   }
   photo.addEventListener('click', openZoomOnPhoto);
@@ -96,6 +70,7 @@ renderCards();
 /* Open and close popups */
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keyup', closeByEsc);
 }
 
 function fillPopupEdit() {
@@ -103,32 +78,31 @@ function fillPopupEdit() {
   jobInput.value = profileJob.textContent;
 }
 
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keyup', closeByEsc);
+}
+
 function closeByEsc(evt) {
-  if (evt.key == 'Escape') {
-    closePopup(evt.currentTarget);
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
 editButton.addEventListener('click', () => {
   openPopup(popupEdit);
-  popupEdit.addEventListener('keyup', closeByEsc);
   fillPopupEdit();
 })
 
 addButton.addEventListener('click', () => {
   openPopup(popupNewCard);
-  popupNewCard.addEventListener('keyup', closeByEsc);
 })
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-}
 
 /* For each close button on the page, find the nearest popup and close it */
 closeButtons.forEach(button => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
-  popup.removeEventListener('keyup', closeByEsc);
 });
 
 /* Saving the entered values before closing popups */
@@ -146,12 +120,15 @@ function handleAddFormSubmit(evt) {
   const newCard = createCard(title, url);
   cardContainer.prepend(newCard);
   evt.target.reset()
+  const submitButton = popupNewCard.querySelector(validationArgs.submitButtonSelector);
+  disableButton(submitButton, validationArgs.inactiveButtonClass)
   closePopup(popupNewCard);
 }
 
 editFormElement.addEventListener('submit', handleEditFormSubmit);
 addFormElement.addEventListener('submit', handleAddFormSubmit);
 
+/* Close popup by click anywhere outside popup */
 function closeByExternalClick(evt) {
   if (evt.target === evt.currentTarget) {
     closePopup(evt.target);

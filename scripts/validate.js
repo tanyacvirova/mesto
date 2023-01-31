@@ -1,11 +1,3 @@
-const validationArgs = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__form-item',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_inactive',
-  inputErrorClass: 'popup__form-item_type_error',
-}
-
 // Handle error: show red line under input + show error message
 const showInputError = (formElement, inputElement, inputErrorClass, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -22,7 +14,7 @@ const hideInputError = (formElement, inputErrorClass, inputElement) => {
 
 // Check validity: if input invalid — show red line and error message
 // If valid — remove and clear all
-const isValid = (formElement, inputElement, inputErrorClass) => {
+const toggleInputErrorState = (formElement, inputElement, inputErrorClass) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputErrorClass, inputElement.validationMessage);
   } else {
@@ -37,15 +29,25 @@ const hasInvalidInput = (inputs) => {
   })
 };
 
+// Disable button
+function disableButton(buttonElement, inactiveButtonClass) {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.setAttribute('disabled', '');
+}
+
+// Enable button
+function enableButton(buttonElement, inactiveButtonClass) {
+  buttonElement.classList.remove(inactiveButtonClass);
+  buttonElement.removeAttribute('disabled');
+}
+
 // Set status for submit button
 // If at least one input invalid, makes button disabled
 const toggleButtonState = (inputs, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputs)) {
-    buttonElement.classList.add(inactiveButtonClass);
-    buttonElement.setAttribute('disabled', '');
+    disableButton(buttonElement, inactiveButtonClass);
   } else {
-    buttonElement.classList.remove(inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');
+    enableButton(buttonElement, inactiveButtonClass);
   }
 };
 
@@ -57,7 +59,7 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector, ina
   toggleButtonState(inputs, buttonElement, inactiveButtonClass);
   inputs.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement, inputErrorClass);
+      toggleInputErrorState(formElement, inputElement, inputErrorClass);
       toggleButtonState(inputs, buttonElement, inactiveButtonClass);
     });
   });

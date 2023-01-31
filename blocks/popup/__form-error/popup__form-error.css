@@ -6,14 +6,13 @@
   font-size: 12px;
   line-height: 15px;
   color: #FF0000;
-  padding: 7px 0 10px;
-  display: inline-block;
-  max-width: 305px;
+  display: block;
+  width: 305px;
   min-height: 30px;
 }
 
 @media (max-width:550px) {
   .popup__form-error {
-      max-width: 225px;
+    max-width: 225px;
   }
 }
