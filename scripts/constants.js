@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: 'Зеленоградск',
     link: './images/elemen_zelenogradsk.jpg'
@@ -25,10 +25,14 @@ const initialCards = [
   },
 ]
 
-const validationArgs = {
+export const validationArgs = {
   formSelector: '.popup__form',
   inputSelector: '.popup__form-item',
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_inactive',
   inputErrorClass: 'popup__form-item_type_error',
 }
+
+export const popupZoom = document.querySelector('.popup_type_image-view');
+export const zoomPhoto = popupZoom.querySelector('.popup__image');
+export const zoomCaption = popupZoom.querySelector('.popup__caption');

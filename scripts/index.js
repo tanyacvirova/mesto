@@ -1,10 +1,11 @@
+/* Import modules */
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { initialCards, validationArgs, popupZoom } from './constants.js';
+
 /* Declare variables */
 const cardContainer = document.querySelector('.elements');
-const cardTemplate = document.querySelector('.template-item').content.querySelector('.element');
-const popupZoom = document.querySelector('.popup_type_image-view');
-
-const zoomPhoto = popupZoom.querySelector('.popup__image');
-const zoomCaption = popupZoom.querySelector('.popup__caption');
+const cardTemplateSelector = '.template-item';
 
 const editButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
@@ -24,43 +25,11 @@ const addFormElement = popupNewCard.querySelector('.popup__form');
 const titleInput = popupNewCard.querySelector('.popup__form-item_el_title');
 const linkInput = popupNewCard.querySelector('.popup__form-item_el_link');
 
-function createCard(name, link) {
-  /* Clone element from template */
-  const card = cardTemplate.cloneNode(true);
-  const cardTitle = card.querySelector('.element__title');
-  cardTitle.textContent = name;
-  const cardImage = card.querySelector('.element__photo');
-  cardImage.src = link;
-  const altText = `Фото. ${name}.`
-  cardImage.alt = altText;
-  /* Handle card deletion */
-  const deleteButton = card.querySelector('.element__delete');
-  const deleteCard = () => {
-    card.remove();
-  }
-  deleteButton.addEventListener('click', deleteCard);
-  const likeButton = card.querySelector('.element__like');
-  /* Handle adding and removing likes */
-  const likeCard = () => {
-    likeButton.classList.toggle('element__like_active');
-  }
-  likeButton.addEventListener('click', likeCard);
-  /* Open zoom on click */
-  const photo = card.querySelector('.element__photo');
-  const openZoomOnPhoto = () => {
-    openPopup(popupZoom);
-    zoomPhoto.src = link;
-    zoomPhoto.alt = altText;
-    zoomCaption.textContent = name;
-  }
-  photo.addEventListener('click', openZoomOnPhoto);
-  return card;
-}
-
 function renderCards() {
   initialCards.forEach(item => {
-    const cardHtml = createCard(item.name, item.link);
-    cardContainer.append(cardHtml);
+    const card = new Card(item.name, item.link, cardTemplateSelector, openPopup);
+    const cardElement = card.generateCard();
+    cardContainer.append(cardElement);
   })
 }
 
@@ -113,12 +82,18 @@ function handleEditFormSubmit(evt) {
   closePopup(popupEdit);
 }
 
+function disableButton(buttonElement, inactiveButtonClass) {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.setAttribute('disabled', '');
+}
+
 function handleAddFormSubmit(evt) {
   evt.preventDefault();
   const title = titleInput.value;
   const url = linkInput.value;
-  const newCard = createCard(title, url);
-  cardContainer.prepend(newCard);
+  const newCard = new Card(title, url, cardTemplateSelector, openPopup);
+  const newCardElement = newCard.generateCard();
+  cardContainer.prepend(newCardElement);
   evt.target.reset()
   const submitButton = popupNewCard.querySelector(validationArgs.submitButtonSelector);
   disableButton(submitButton, validationArgs.inactiveButtonClass)
@@ -138,3 +113,8 @@ function closeByExternalClick(evt) {
 popupEdit.addEventListener('click', closeByExternalClick);
 popupNewCard.addEventListener('click', closeByExternalClick);
 popupZoom.addEventListener('click', closeByExternalClick);
+
+const popupEditValidation = new FormValidator(validationArgs, document.forms[0]);
+popupEditValidation.enableValidation();
+const popupAddNewCard = new FormValidator(validationArgs, document.forms[1]);
+popupAddNewCard.enableValidation();
