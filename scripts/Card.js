@@ -20,10 +20,11 @@ export class Card {
 
   _deleteCard() {
     this._element.remove();
+    this._element = null;
   }
 
   _likeCard() {
-    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+    this._buttonLike.classList.toggle('element__like_active');
   }
 
   _zoomOnPhoto() {
@@ -37,10 +38,12 @@ export class Card {
     this._element.querySelector('.element__delete').addEventListener('click', () => {
       this._deleteCard();
     });
-    this._element.querySelector('.element__like').addEventListener('click', () => {
+    this._buttonLike = this._element.querySelector('.element__like');
+    this._buttonLike.addEventListener('click', () => {
       this._likeCard();
     });
-    this._element.querySelector('.element__photo').addEventListener('click', () => {
+    this._cardImage = this._element.querySelector('.element__photo');
+    this._cardImage.addEventListener('click', () => {
       this._zoomOnPhoto();
     });
   }
@@ -49,8 +52,8 @@ export class Card {
     this._element = this._getTemplate();
     this._setEventListeners();
     this._element.querySelector('.element__title').textContent = this._name;
-    this._element.querySelector('.element__photo').src = this._link;
-    this._element.querySelector('.element__photo').alt = `Фото. ${this._name}.`;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = `Фото. ${this._name}.`;
     return this._element;
   }
 }

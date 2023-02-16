@@ -36,6 +36,12 @@ function renderCards() {
 /* Render first 6 base cards from template */
 renderCards();
 
+/* Turn on validation */
+const popupEditValidation = new FormValidator(validationArgs, document.forms[0]);
+popupEditValidation.enableValidation();
+const popupAddNewCard = new FormValidator(validationArgs, document.forms[1]);
+popupAddNewCard.enableValidation();
+
 /* Open and close popups */
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -82,11 +88,6 @@ function handleEditFormSubmit(evt) {
   closePopup(popupEdit);
 }
 
-function disableButton(buttonElement, inactiveButtonClass) {
-  buttonElement.classList.add(inactiveButtonClass);
-  buttonElement.setAttribute('disabled', '');
-}
-
 function handleAddFormSubmit(evt) {
   evt.preventDefault();
   const title = titleInput.value;
@@ -94,9 +95,7 @@ function handleAddFormSubmit(evt) {
   const newCard = new Card(title, url, cardTemplateSelector, openPopup);
   const newCardElement = newCard.generateCard();
   cardContainer.prepend(newCardElement);
-  evt.target.reset()
-  const submitButton = popupNewCard.querySelector(validationArgs.submitButtonSelector);
-  disableButton(submitButton, validationArgs.inactiveButtonClass)
+  evt.target.reset();
   closePopup(popupNewCard);
 }
 
@@ -113,8 +112,3 @@ function closeByExternalClick(evt) {
 popupEdit.addEventListener('click', closeByExternalClick);
 popupNewCard.addEventListener('click', closeByExternalClick);
 popupZoom.addEventListener('click', closeByExternalClick);
-
-const popupEditValidation = new FormValidator(validationArgs, document.forms[0]);
-popupEditValidation.enableValidation();
-const popupAddNewCard = new FormValidator(validationArgs, document.forms[1]);
-popupAddNewCard.enableValidation();
