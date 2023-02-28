@@ -33,6 +33,6 @@ export const validationArgs = {
   inputErrorClass: 'popup__form-item_type_error',
 }
 
-// export const popupZoom = document.querySelector('.popup_type_image-view');
-// export const zoomPhoto = popupZoom.querySelector('.popup__image');
-// export const zoomCaption = popupZoom.querySelector('.popup__caption');
+export const popupZoom = document.querySelector('.popup_type_image-view');
+export const zoomPhoto = popupZoom.querySelector('.popup__image');
+export const zoomCaption = popupZoom.querySelector('.popup__caption');
