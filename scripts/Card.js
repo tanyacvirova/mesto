@@ -1,11 +1,11 @@
-import { popupZoom, zoomPhoto, zoomCaption } from './constants.js';
+// import { popupZoom, zoomPhoto, zoomCaption } from './constants.js';
 
 export class Card {
-  constructor(name, link, templateSelector, openPopup) {
-    this._name = name;
-    this._link = link;
+  constructor({data, handleCardClick}, templateSelector) {
+    this._name = data.name;
+    this._link = data.link;
     this._templateSelector = templateSelector;
-    this._openPopup = openPopup;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -27,12 +27,12 @@ export class Card {
     this._buttonLike.classList.toggle('element__like_active');
   }
 
-  _zoomOnPhoto() {
-    this._openPopup(popupZoom);
-    zoomPhoto.src = this._link;
-    zoomCaption.textContent = this._name;
-    zoomPhoto.alt = `Фото. ${this._name}.`;
-  }
+  // _zoomOnPhoto() {
+  //   this._openPopup(popupZoom);
+  //   zoomPhoto.src = this._link;
+  //   zoomCaption.textContent = this._name;
+  //   zoomPhoto.alt = `Фото. ${this._name}.`;
+  // }
 
   _setEventListeners() {
     this._element.querySelector('.element__delete').addEventListener('click', () => {
@@ -44,7 +44,7 @@ export class Card {
     });
     this._cardImage = this._element.querySelector('.element__photo');
     this._cardImage.addEventListener('click', () => {
-      this._zoomOnPhoto();
+      this._handleCardClick();
     });
   }
 
