@@ -13,19 +13,25 @@ import '../pages/index.css';
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
+const popupZoom = new PopupWithImage('.popup_type_image-view');
+popupZoom.setEventListeners();
+
+function generateCard(objectElement, popupElement) {
+  const card = new Card({
+    data: objectElement,
+    handleCardClick: (cardItemName, cardItemLink) => {
+      popupElement.open(cardItemName, cardItemLink);
+    }
+  }, '.template-item');
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
 /* Render first 6 base cards from template */
 const cardList = new Section({
   items: initialCards,
   renderer: (cardItem) => {
-    const card = new Card({
-      data: cardItem,
-      handleCardClick: () => {
-        const popupZoom = new PopupWithImage('.popup_type_image-view');
-        popupZoom.setEventListeners();
-        popupZoom.open(cardItem.name, cardItem.link);
-      }
-    }, '.template-item');
-    const cardElement = card.generateCard();
+    const cardElement = generateCard(cardItem, popupZoom);
     cardList.setItem(cardElement);
   }
 }, '.elements');
@@ -49,23 +55,18 @@ const popupEdit = new PopupWithForm('.popup_type_edit', (data) => {
 });
 popupEdit.setEventListeners();
 
+const popupZoomNewCard = new PopupWithImage('.popup_type_image-view');
+popupZoomNewCard.setEventListeners();
+
 const popupAddNewCard = new PopupWithForm('.popup_type_new-card', (data) => {
-  const newCard = new Card({
-    data: data,
-    handleCardClick: () => {
-      const popupZoomNewCard = new PopupWithImage('.popup_type_image-view');
-      popupZoomNewCard.setEventListeners();
-      ppopupZoomNewCard.open(data.name, data.link);
-    }
-  }, '.template-item');
-  const newCardElement = newCard.generateCard();
+  const newCardElement = generateCard(data, popupZoomNewCard);
   cardList.setItem(newCardElement);
 });
 popupAddNewCard.setEventListeners();
 
 editButton.addEventListener('click', () => {
   popupEdit.open();
-  popupEdit.fill({data: info.getUserInfo()});
+  popupEdit.fill({ data: info.getUserInfo() });
 })
 
 addButton.addEventListener('click', () => {
