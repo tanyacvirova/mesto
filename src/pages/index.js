@@ -55,11 +55,8 @@ const popupEdit = new PopupWithForm('.popup_type_edit', (data) => {
 });
 popupEdit.setEventListeners();
 
-const popupZoomNewCard = new PopupWithImage('.popup_type_image-view');
-popupZoomNewCard.setEventListeners();
-
 const popupAddNewCard = new PopupWithForm('.popup_type_new-card', (data) => {
-  const newCardElement = generateCard(data, popupZoomNewCard);
+  const newCardElement = generateCard(data, popupZoom);
   cardList.setItem(newCardElement);
 });
 popupAddNewCard.setEventListeners();
