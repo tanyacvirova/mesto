@@ -15,7 +15,9 @@
     <main class="content">
       <section class="profile">
         <div class="profile__content">
-          <div class="profile__avatar"></div>
+          <div class="profile__avatar">
+            <button class="profile__edit-avatar-button" type="button"></button>
+          </div>
           <div class="profile__info">
             <div class="profile__title">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -39,8 +41,8 @@
           <input class="popup__form-item popup__form-item_el_name" type="text" id="name" name="name" required
             minlength="2" maxlength="40" placeholder="Имя">
           <span class="name-error popup__form-error"></span>
-          <input class="popup__form-item popup__form-item_el_job" type="text" id="job" name="job" required minlength="2"
-            maxlength="200" placeholder="О себе">
+          <input class="popup__form-item popup__form-item_el_job" type="text" id="job" name="about" required
+            minlength="2" maxlength="200" placeholder="О себе">
           <span class="job-error popup__form-error"></span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
@@ -68,13 +70,35 @@
         <p class="popup__caption"></p>
       </div>
     </div>
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form" name="edit-avatar" novalidate>
+          <input class="popup__form-item popup__form-item_el_avatar" type="url" id="avatar" name="avatar"
+            placeholder="Ссылка на новый аватар" required>
+          <span class="avatar-error popup__form-error"></span>
+          <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_confirm">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button"></button>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button class="popup__save-button popup__save-button_confirm" type="submit">Да</button>
+      </div>
+    </div>
     <template class="template-item">
       <article class="element">
         <img class="element__photo" src="#" alt="Фото. ">
         <button class="element__delete" type="button"></button>
         <div class="element__info">
           <h2 class="element__title"></h2>
-          <button class="element__like" type="button"></button>
+            <div class="element__like-container">
+              <button class="element__like" type="button"></button>
+              <p class="element__like-count">0</p>
+            </div>
         </div>
       </article>
     </template>

@@ -28,6 +28,16 @@ export class PopupWithForm extends Popup {
         this._popup.querySelector('.popup__form').reset();
     }
 
+    setButtonStatusLoading(isLoading) {
+        this._saveButton = this._popup.querySelector('.popup__save-button');
+        if (isLoading) {
+            this._defaultButtonText = this._saveButton.textContent;
+            this._saveButton.textContent = 'Сохранение...';
+        } else {
+            this._saveButton.textContent = this._defaultButtonText;
+        }
+    }
+
     setEventListeners() {
         super.setEventListeners();
         this._popup
