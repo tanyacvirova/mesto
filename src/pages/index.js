@@ -6,12 +6,19 @@ import { PopupWithForm } from '../scripts/PopupWithForm.js';
 import { PopupWithSubmit } from '../scripts/PopupWithSubmit.js';
 import { UserInfo } from '../scripts/UserInfo.js';
 import { FormValidator } from '../scripts/FormValidator.js';
-import { validationArgs } from '../scripts/constants.js';
 import { Api } from '../scripts/Api.js';
 
 import '../pages/index.css';
 
 /* Declare variables */
+
+const validationArgs = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__form-item',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__form-item_type_error',
+}
 
 let currentuserId;
 
@@ -44,6 +51,7 @@ function generateCard(objectElement, popupElement) {
           .then(() => {
             cardElement.remove();
             cardElement = null;
+            popupConfirmDeletion.close();
           })
           .catch((err) => {
             console.log(err);
@@ -114,6 +122,7 @@ function editInfo(infoData) {
   api.editPersonalInfo(infoData)
     .then((newInfo) => {
       info.setUserInfo({ data: newInfo });
+      popupEdit.close();
     })
     .catch((err) => {
       console.log(err);
@@ -133,6 +142,7 @@ function addNewCard(item) {
     .then((newItem) => {
       const newCardElement = generateCard(newItem, popupZoom);
       cardList.setItem(newCardElement);
+      popupAddNewCard.close();
     })
     .catch((err) => {
       console.log(err);
@@ -159,6 +169,7 @@ function changeAvatar(avatarData) {
   api.editAvatar(avatarData)
     .then((newAvatar) => {
       info.setUserInfo({ data: newAvatar });
+      popupEditAvatar.close();
     })
     .catch((err) => {
       console.log(err);

@@ -17,7 +17,7 @@ export class PopupWithSubmit extends Popup {
             .addEventListener('click', (evt) => {
                 evt.preventDefault();
                 this._handleAction();
-                this.close();;
+                // this.close();
             });
     }
 }
